@@ -6,625 +6,404 @@
 <title>頭城休閒農場 — 有機蔬菜DIY體驗行銷企劃</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Noto Sans TC','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:#f5f2eb;color:#2c3e2d;line-height:1.8}
-h1,h2,h3,h4{color:#1a3c1a;letter-spacing:0.5px}
-h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800}
-h2{font-size:clamp(1.5rem,3vw,2.2rem);border-left:6px solid #4a7c4a;padding-left:18px;margin:60px 0 30px}
-h3{font-size:1.3rem;margin:30px 0 15px;color:#2d5a2d}
-h4{font-size:1.1rem;margin:20px 0 10px}
-p{margin-bottom:16px;font-size:1rem}
-.container{max-width:1200px;margin:0 auto;padding:20px}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans TC','Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a3c1a}
 
-/* Hero */
-.hero{background:linear-gradient(135deg,#1a3c1a 0%,#3d7a3d 50%,#6a9e6a 100%);color:#fff;padding:80px 20px 60px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' opacity='0.08'%3E%3Ccircle cx='50' cy='50' r='40' fill='white'/%3E%3C/svg%3E") repeat;background-size:100px 100px}
-.hero h1{color:#fff;position:relative;z-index:1;text-shadow:0 2px 10px rgba(0,0,0,.3)}
-.hero p{color:#d4e8d4;font-size:1.15rem;max-width:700px;margin:16px auto 0;position:relative;z-index:1}
-.hero .badge{display:inline-block;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);padding:6px 18px;border-radius:20px;font-size:.85rem;margin-top:12px;position:relative;z-index:1}
-.hero .leaf{font-size:3rem;position:relative;z-index:1;display:block;margin-bottom:10px}
+/* Slide deck */
+.deck{width:100%;height:100%;position:relative;overflow:hidden}
+.slides{display:flex;height:100%;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+.slide{flex:0 0 100%;height:100%;overflow-y:auto;display:flex;flex-direction:column;background:#f5f2eb;padding:36px 48px}
+.slide::-webkit-scrollbar{width:4px}
+.slide::-webkit-scrollbar-thumb{background:#aaa;border-radius:2px}
+
+/* Navigation */
+.nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:rgba(26,60,26,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;gap:20px;z-index:100;padding:0 24px}
+.nav-btn{background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:36px;border-radius:8px;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.nav-btn:hover{background:rgba(255,255,255,.28)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.counter{color:rgba(255,255,255,.8);font-size:.85rem;letter-spacing:1px;min-width:60px;text-align:center}
+.progress{flex:1;max-width:240px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;background:#6a9e6a;border-radius:2px;transition:width .5s}
+.page-info{color:rgba(255,255,255,.6);font-size:.75rem}
+
+/* Typography */
+h1{font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:800;color:#1a3c1a}
+h2{font-size:clamp(1.3rem,2.5vw,1.8rem);color:#1a3c1a;border-left:5px solid #4a7c4a;padding-left:16px;margin:0 0 20px}
+h3{font-size:clamp(1rem,1.8vw,1.3rem);color:#2d5a2d;margin:16px 0 10px}
+h4{font-size:1rem;margin:12px 0 6px;color:#1a3c1a}
+p{font-size:clamp(.85rem,1.4vw,.95rem);line-height:1.7;margin-bottom:10px;color:#2c3e2d}
+.slide-content{max-width:1100px;width:100%;margin:0 auto;flex:1}
+.slide-header{margin-bottom:16px}
+.slide-num{font-size:2.5rem;font-weight:800;color:rgba(26,60,26,.07);position:absolute;top:12px;right:36px;pointer-events:none}
+
+/* Cover slide */
+.cover{background:linear-gradient(135deg,#1a3c1a 0%,#3d7a3d 50%,#6a9e6a 100%);justify-content:center;align-items:center;text-align:center}
+.cover h1{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.3);font-size:clamp(1.8rem,4vw,3.2rem)}
+.cover p{color:#d4e8d4;font-size:clamp(1rem,1.8vw,1.2rem);margin:8px auto 0;max-width:600px}
+.cover .leaf{font-size:clamp(2.5rem,5vw,4rem);display:block;margin-bottom:12px}
+.cover .badge{display:inline-block;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);padding:5px 20px;border-radius:20px;font-size:clamp(.75rem,1.1vw,.85rem);color:#fff;margin-top:12px}
+
+/* End slide */
+.end{background:linear-gradient(135deg,#1a3c1a 0%,#2d5a2d 100%);justify-content:center;align-items:center;text-align:center}
+.end h1{color:#fff}
+.end p{color:#b8d4b8}
 
 /* TOC */
-.toc{background:#e8e4db;padding:30px;border-radius:12px;margin:40px 0}
-.toc h3{margin-top:0;border:none}
-.toc ol{columns:2;column-gap:30px;list-style-position:inside;padding:0}
-.toc ol li{margin:6px 0;break-inside:avoid}
-.toc ol li a{color:#2d5a2d;text-decoration:none;font-size:.95rem}
-.toc ol li a:hover{text-decoration:underline;color:#1a3c1a}
+.toc-list{columns:2;column-gap:30px;list-style:none;padding:0;margin:16px 0}
+.toc-list li{margin:8px 0;break-inside:avoid;counter-increment:item}
+.toc-list li::before{content:counter(item);background:#4a7c4a;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem;margin-right:10px;flex-shrink:0}
+.toc-list li a{color:#2d5a2d;text-decoration:none;font-size:.9rem;font-weight:500}
+.toc-list li a:hover{text-decoration:underline}
+.toc-list{counter-reset:item}
 
-/* Cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;margin:30px 0}
-.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.card .cimg{height:160px;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff}
-.card .ctext{padding:20px}
-.card h4{margin:0 0 8px;font-size:1.1rem}
-.card p{font-size:.9rem;color:#555;margin:0 0 8px;line-height:1.6}
-.card .meta{font-size:.8rem;color:#888;display:flex;gap:12px;flex-wrap:wrap}
-.card .tag{display:inline-block;background:#e8f0e8;color:#2d5a2d;padding:2px 10px;border-radius:10px;font-size:.75rem}
-
-/* Color themes for cards */
-.c1 .cimg{background:linear-gradient(135deg,#c0392b,#e74c3c)}
-.c2 .cimg{background:linear-gradient(135deg,#27ae60,#2ecc71)}
-.c3 .cimg{background:linear-gradient(135deg,#8e44ad,#9b59b6)}
-.c4 .cimg{background:linear-gradient(135deg,#d35400,#e67e22)}
-.c5 .cimg{background:linear-gradient(135deg,#2980b9,#3498db)}
-.c6 .cimg{background:linear-gradient(135deg,#f39c12,#f1c40f)}
-.c7 .cimg{background:linear-gradient(135deg,#16a085,#1abc9c)}
-.c8 .cimg{background:linear-gradient(135deg,#c0392b,#e74c3c)}
+/* Grids */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:10px 0}
+.grid-4{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 8px rgba(0,0,0,.06);overflow:hidden;padding:16px}
+.card h4{font-size:.95rem;margin:0 0 6px}
+.card p{font-size:.82rem;color:#555;margin:0;line-height:1.5}
+.card .tag{display:inline-block;background:#e8f0e8;color:#2d5a2d;padding:1px 10px;border-radius:10px;font-size:.72rem;margin-top:6px}
+.card-icon{font-size:1.8rem;margin-bottom:6px}
 
 /* Tables */
-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.9rem}
-th{background:#1a3c1a;color:#fff;padding:12px 10px;text-align:left;font-weight:500}
-td{padding:10px;border-bottom:1px solid #ddd}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:clamp(.75rem,1.2vw,.85rem)}
+th{background:#1a3c1a;color:#fff;padding:8px 10px;text-align:left;font-weight:500}
+td{padding:7px 10px;border-bottom:1px solid #ddd}
 tr:nth-child(even){background:#f9f8f5}
-tr:hover{background:#eef4ee}
 
-/* Sections */
-.section{margin:50px 0;padding:30px 0;border-top:1px solid #d8d4cb}
-.section:first-of-type{border-top:none}
-.highlight{background:#fff;border-radius:12px;padding:24px;margin:16px 0;box-shadow:0 1px 8px rgba(0,0,0,.04)}
-.highlight .label{font-weight:700;color:#1a3c1a;display:inline-block;background:#d4e8d4;padding:2px 10px;border-radius:4px;font-size:.8rem;margin-bottom:8px}
-.step{display:flex;gap:12px;margin:8px 0;align-items:flex-start}
-.step .num{background:#4a7c4a;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:20px 0}
-.kpi-item{background:#fff;border-radius:10px;padding:20px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.05)}
-.kpi-item .num{font-size:1.8rem;font-weight:800;color:#2d5a2d}
-.kpi-item .lbl{font-size:.8rem;color:#666;margin-top:4px}
-
-/* Tags */
-.tag-green{display:inline-block;background:#d4e8d4;color:#1a3c1a;padding:2px 12px;border-radius:12px;font-size:.8rem;margin:2px}
-.tag-brown{display:inline-block;background:#e8e0d4;color:#5a4a3a;padding:2px 12px;border-radius:12px;font-size:.8rem;margin:2px}
-
-/* Timeline */
-.timeline{position:relative;padding-left:30px;margin:30px 0}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;background:#4a7c4a;border-radius:2px}
-.tl-item{position:relative;margin-bottom:24px;padding-left:20px}
-.tl-item::before{content:'';position:absolute;left:-26px;top:6px;width:14px;height:14px;border-radius:50%;background:#4a7c4a;border:3px solid #d4e8d4}
-.tl-item .month{font-weight:700;color:#4a7c4a;font-size:.9rem}
-.tl-item p{margin:4px 0 0;font-size:.9rem}
-
-/* Section number decoration */
-.section-num{font-size:3rem;font-weight:800;color:rgba(26,60,26,.06);position:absolute;top:-10px;right:20px;pointer-events:none}
-.section{position:relative}
-
-/* Steps list */
-.steps li{margin:6px 0;padding-left:4px;line-height:1.7}
-.steps{list-style-position:inside;padding:0;margin:10px 0 20px}
-
-/* Footer */
-footer{background:#1a3c1a;color:#b8d4b8;text-align:center;padding:40px 20px;margin-top:60px;font-size:.9rem}
-
-/* Responsive */
-@media(max-width:768px){
-  .grid{grid-template-columns:1fr}
-  .toc ol{columns:1}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .hero{padding:50px 16px 40px}
-}
-
-/* Keyword tags */
-.keywords{margin:12px 0}
-.keyword{display:inline-block;background:#eef4ee;color:#2d5a2d;padding:2px 12px;border-radius:10px;font-size:.78rem;margin:2px 2px 2px 0}
-
-/* Section divider */
-.divider{text-align:center;margin:30px 0;color:#8aaa8a;font-size:1.5rem;letter-spacing:8px}
-
-/* Channel tags */
-.channel{display:inline-block;background:#1a3c1a;color:#fff;padding:1px 8px;border-radius:4px;font-size:.72rem;margin:1px}
-
-/* Highlight box */
-.box{background:#e8f0e8;border-left:4px solid #4a7c4a;padding:16px 20px;margin:16px 0;border-radius:0 8px 8px 0;font-size:.92rem}
+/* Highlights */
+.box{background:#e8f0e8;border-left:4px solid #4a7c4a;padding:12px 16px;margin:8px 0;border-radius:0 6px 6px 0;font-size:clamp(.78rem,1.2vw,.88rem)}
 .box strong{color:#1a3c1a}
+.highlight{background:#fff;border-radius:8px;padding:16px;margin:8px 0;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.highlight .label{font-weight:700;color:#1a3c1a;display:inline-block;background:#d4e8d4;padding:1px 10px;border-radius:4px;font-size:.75rem;margin-bottom:6px}
+.step{display:flex;gap:10px;margin:4px 0;align-items:flex-start}
+.step .num{background:#4a7c4a;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:10px 0}
+.kpi-item{background:#fff;border-radius:8px;padding:14px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.kpi-item .num{font-size:1.4rem;font-weight:800;color:#2d5a2d}
+.kpi-item .lbl{font-size:.72rem;color:#666;margin-top:2px}
+.tag-green{display:inline-block;background:#d4e8d4;color:#1a3c1a;padding:1px 10px;border-radius:10px;font-size:.75rem;margin:1px}
+.timeline{position:relative;padding-left:24px;margin:12px 0}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:#4a7c4a}
+.tl-item{position:relative;margin-bottom:14px;padding-left:14px}
+.tl-item::before{content:'';position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:#4a7c4a;border:2px solid #d4e8d4}
+.tl-item .month{font-weight:700;color:#4a7c4a;font-size:.82rem}
+.tl-item p{margin:2px 0 0;font-size:.82rem}
+.keywords{margin:6px 0}
+.keyword{display:inline-block;background:#eef4ee;color:#2d5a2d;padding:1px 10px;border-radius:8px;font-size:.72rem;margin:1px}
+.channel{display:inline-block;background:#1a3c1a;color:#fff;padding:1px 6px;border-radius:3px;font-size:.68rem;margin:1px}
+.divider{text-align:center;margin:10px 0;color:#8aaa8a;font-size:1rem;letter-spacing:6px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:768px){
+  .slide{padding:20px 16px}
+  .grid{grid-template-columns:1fr}
+  .toc-list{columns:1}
+  .two-col{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+}
+/* Compact multi-content */
+.slim-mb{margin-bottom:4px}
+.slim-mt{margin-top:4px}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
+<div class="deck">
+<div class="slides" id="slides">
+
+<!-- ====== 1. COVER ====== -->
+<div class="slide cover">
   <span class="leaf">🌿</span>
   <h1>從泥土到餐桌<br>有機生活實踐家</h1>
   <p>頭城休閒農場 — 八項創新 DIY 體驗行銷企劃</p>
   <div class="badge">HEAD FARM · 2026 ｜ 有機蔬菜 IP 開發</div>
 </div>
 
-<div class="container">
-
-<!-- TOC -->
-<div class="toc">
-  <h3>📋 目錄</h3>
-  <ol>
-    <li><a href="#s1">前言與核心策略</a></li>
-    <li><a href="#s2">八項創新DIY體驗行銷文案</a></li>
-    <li><a href="#s3">八項DIY體驗企劃書</a></li>
-    <li><a href="#s4">預算總表與執行時程</a></li>
-    <li><a href="#s5">效益評估與KPI</a></li>
-  </ol>
+<!-- ====== 2. TOC ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-header"><h2>📋 目錄</h2></div>
+    <ol class="toc-list">
+      <li><a href="#" onclick="goSlide(2)">前言與核心策略</a></li>
+      <li><a href="#" onclick="goSlide(3)">八項創新DIY體驗行銷文案</a></li>
+      <li><a href="#" onclick="goSlide(5)">八項DIY體驗企劃書</a></li>
+      <li><a href="#" onclick="goSlide(9)">預算總表與執行時程</a></li>
+      <li><a href="#" onclick="goSlide(10)">效益評估與KPI</a></li>
+    </ol>
+    <div style="margin-top:24px;background:#e8e4db;border-radius:10px;padding:20px">
+      <p style="margin:0;font-size:.9rem;font-weight:600;color:#1a3c1a">🌱 以「有機蔬菜」為核心 IP，開發八項差異化 DIY 體驗</p>
+      <p style="margin:4px 0 0;font-size:.82rem;color:#555">GSTC 國際認證 × 有機菜園 × 120 公頃生態場域 × 食農教育傳承</p>
+    </div>
+  </div>
 </div>
 
-<!-- ===================== 壹 ===================== -->
-<section id="s1" class="section">
-  <div class="section-num">壹</div>
-  <h2>壹、前言與核心策略</h2>
-
-  <h3>一、背景說明</h3>
-  <p>頭城休閒農場位於宜蘭縣頭城鎮，佔地超過<strong>120公頃</strong>，倚山面海，生態資源豐富。農場自創辦人<strong>卓媽媽（卓陳明女士）</strong>經營以來，始終以「教育場域」為核心精神，從早期的休閒農業逐步發展為融合自然體驗、環境教育與食農教育的綜合型農場。</p>
-  <p class="box"><strong>2025年</strong>，頭城農場獲得<strong>全球永續旅遊委員會（GSTC）</strong>以永續旅宿業準則評鑑通過之認證，為台灣極少數獲此國際認證的休閒農場之一。</p>
-  <p>農場內設<strong>有機蔬菜園區</strong>，種植多樣有機蔬菜品項，目前已被納入園區導覽及傳統小吃自助餐的食材來源，惟尚未將有機蔬菜主題充分獨立發展為主題式深度體驗商品。本企劃即針對此缺口，以「有機蔬菜」為核心IP，開發八項與既有活動互補且具市場差異化的DIY體驗。</p>
-
-  <h3>二、原始案例基礎（不虛構、不取代）</h3>
-  <p>本企劃所有新體驗均以頭城農場既有項目為根基，不否定、不取代、不虛構既有產品線。以下為農場現有已營運之相關體驗：</p>
-  <div class="grid">
-    <div class="card">
-      <div class="cimg" style="background:#5a7a5a">🌿</div>
-      <div class="ctext"><h4>創意葉拓DIY</h4><p>採集農場內植物葉片，拓印於T-shirt或環保袋。</p><span class="tag">KKday</span></div>
+<!-- ====== 3. 壹 (part 1) ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">壹</div>
+    <div class="slide-header"><h2>壹、前言與核心策略</h2></div>
+    <div class="two-col">
+      <div>
+        <h4>背景說明</h4>
+        <p>頭城休閒農場位於宜蘭縣頭城鎮，佔地 <strong>120 公頃</strong>，倚山面海。創辦人<strong>卓媽媽</strong>以「教育場域」為核心，發展為融合自然體驗、環境教育與食農教育的綜合型農場。</p>
+        <div class="box"><strong>2025年</strong> 獲 <strong>GSTC</strong> 永續旅宿業認證，台灣極少數獲此國際認證的休閒農場之一。</div>
+        <p>有機蔬菜園區目前為導覽及小吃自助餐的食材來源，尚未獨立發展為主題式深度體驗商品。本企劃即針對此缺口開發八項 DIY 體驗。</p>
+      </div>
+      <div>
+        <h4>核心策略定位</h4>
+        <div class="highlight">
+          <div class="label">品牌定位</div>
+          <p style="font-size:1rem;font-weight:600;margin:0">「從泥土到餐桌」的有機生活實踐家</p>
+        </div>
+        <div class="highlight">
+          <div class="label">既有體驗基礎（不取代、不虛構）</div>
+          <p style="margin:0;font-size:.82rem">創意葉拓DIY · 傳統小吃自助區 · 有機菜園導覽 · 農村動物互動</p>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <div class="cimg" style="background:#7a6a4a">🍜</div>
-      <div class="ctext"><h4>傳統小吃自助區</h4><p>綠豆湯、芋頭米粉、甜湯圓、刨冰等台式小吃無限供應。</p></div>
-    </div>
-    <div class="card">
-      <div class="cimg" style="background:#4a7a6a">🥬</div>
-      <div class="ctext"><h4>有機菜園導覽</h4><p>跟著導覽大哥走入有機菜園，認識作物。</p></div>
-    </div>
-    <div class="card">
-      <div class="cimg" style="background:#6a5a4a">🐄</div>
-      <div class="ctext"><h4>農村動物互動</h4><p>餵牛、餵羊、觀察生態。</p></div>
+    <h4 style="margin-top:10px">目標客群分層</h4>
+    <div class="grid grid-4">
+      <div class="card"><div class="card-icon">👨‍👩‍👧‍👧</div><h4>A. 親子家庭</h4><p>3-12歲，重視教育意義、安全性、打卡性</p></div>
+      <div class="card"><div class="card-icon">📸</div><h4>B. 年輕／網美</h4><p>18-35歲，重視獨特體驗、IG分享、文青感</p></div>
+      <div class="card"><div class="card-icon">🌿</div><h4>C. 銀髮樂齡</h4><p>55歲以上，重視健康養生、懷舊感</p></div>
+      <div class="card"><div class="card-icon">🏢</div><h4>D. 企業學校</h4><p>重視ESG、團隊凝聚、食農教育</p></div>
     </div>
   </div>
-  <p>本企劃之八項DIY體驗，將與上述既有項目形成「<strong>加購</strong>」或「<strong>升級</strong>」關係，不取代既有免費／套裝內容。</p>
-
-  <h3>三、核心策略定位</h3>
-  <div class="highlight">
-    <div class="label">品牌定位</div>
-    <p style="font-size:1.15rem;font-weight:600;margin:0">「從泥土到餐桌」的有機生活實踐家</p>
-  </div>
-  <div class="highlight">
-    <div class="label">差異化優勢</div>
-    <p style="margin:0">GSTC國際認證 × 有機菜園 × 120公頃生態場域 × 食農教育傳承</p>
-  </div>
-
-  <h4>目標客群分層</h4>
-  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr))">
-    <div class="card"><div class="ctext"><h4>👨‍👩‍👧‍👦 A. 親子家庭</h4><p>3-12歲孩童，重視教育意義、安全性、拍照打卡性。</p></div></div>
-    <div class="card"><div class="ctext"><h4>📸 B. 年輕族群／網美</h4><p>18-35歲，重視獨特體驗、IG/FB分享性、手作文青感。</p></div></div>
-    <div class="card"><div class="ctext"><h4>🌿 C. 銀髮族群／樂齡</h4><p>55歲以上，重視健康養生、懷舊感、社交互動。</p></div></div>
-    <div class="card"><div class="ctext"><h4>🏢 D. 企業／學校團體</h4><p>重視ESG、團隊凝聚、食農教育課程。</p></div></div>
-  </div>
-  <div class="box"><strong>定價原則：</strong>加購價每位 NT$___ ，依體驗內容與材料成本訂定；套裝升級價另計。</div>
-</section>
-
-<!-- ===================== 貳 ===================== -->
-<section id="s2" class="section">
-  <div class="section-num">貳</div>
-  <h2>貳、八項創新DIY體驗行銷文案</h2>
-
-  <!-- 體驗一 -->
-  <div class="highlight"><h3 style="margin:0">🌱 體驗一：「從田到桌」自採自煮工作坊</h3></div>
-  <p style="color:#c0392b;font-size:1.2rem;font-weight:700;margin:0 0 6px">你今天採的菜，十分鐘後就在碗裡。</p>
-  <p style="color:#555;margin:0 0 16px">從田到桌零時差——頭城農場「自採自煮」工作坊，讓你重新認識食物的味道。</p>
-  <p>你有多久沒有吃過「剛從土裡拔出來」的蔬菜了？在頭城農場的有機菜園裡，我們不讓食材離開土地超過半小時。拿起竹籃，走進田埂，親手摘下還帶著晨露的有機蔬菜；走回傳統灶咖，在農場媽媽的指導下，用百年老灶大火快炒、或用慢火熬一鍋蔬菜湯。沒有菜單，因為菜單就長在田裡——今天的料理，由你決定。</p>
-  <div class="box">
-    <strong>適合對象：</strong>親子家庭（3歲以上）、情侶、好友揪團<br>
-    <strong>體驗時長：</strong>90分鐘 ｜ <strong>費用：</strong>加購價 NT___／位<br>
-    <strong>場次：</strong>每日10:30／14:00 各一梯次（每梯上限20人）
-  </div>
-  <div class="keywords">
-    <span class="keyword">#從田到桌</span><span class="keyword">#farmtotable</span><span class="keyword">#零時差有機</span><span class="keyword">#頭城農場灶咖</span><span class="keyword">#自己採的最甜</span>
-  </div>
-  <p><strong>信任建立：</strong>「有機不是標籤，是你親眼看見、親手摘下的過程」<br>
-  <strong>情感驅動：</strong>「帶孩子一起煮一頓飯，是這輩子最好的食農教育」</p>
-  <p><strong>行銷渠道：</strong><span class="channel">Instagram Reels</span> <span class="channel">KKday/Klook</span> <span class="channel">官網部落格</span> <span class="channel">親子KOL合作</span></p>
-
-  <!-- 體驗二 -->
-  <div class="highlight"><h3 style="margin:0">🪴 體驗二：有機蔬菜盆栽組裝教室</h3></div>
-  <p style="color:#27ae60;font-size:1.2rem;font-weight:700;margin:0 0 6px">帶一盆有機小農場回家。</p>
-  <p style="color:#555;margin:0 0 16px">頭城農場的有機蔬菜苗，今天開始是你家陽台的新鄰居。</p>
-  <p>旅行結束後，最怕的就是回憶慢慢變淡。但如果——你可以帶一盆「活著的紀念品」回家呢？在頭城農場的盆栽教室裡，我們準備了農場自育的有機蔬菜苗（季節限定：萵苣、小白菜、九層塔、番茄、辣椒），搭配回收牛奶罐、椰纖盆或手繪陶盆，30分鐘內你就能組裝出一盆專屬的有機小菜園。農場還附贈「回家照顧指南」小卡片，掃QR碼還能看每週生長直播。</p>
-  <div class="box">
-    <strong>適合對象：</strong>親子家庭（4-10歲）、文青族群、初次種菜者<br>
-    <strong>體驗時長：</strong>40分鐘 ｜ <strong>費用：</strong>加購價 NT___／盆<br>
-    <strong>場次：</strong>每日10:00-16:00 隨到隨做
-  </div>
-  <div class="keywords">
-    <span class="keyword">#帶活著的紀念品回家</span><span class="keyword">#陽台小農場</span><span class="keyword">#有機菜苗DIY</span><span class="keyword">#頭城農場盆栽教室</span>
-  </div>
-  <p><strong>利益訴求：</strong>「回家後繼續長大的回憶，比鑰匙圈更持久」<br>
-  <strong>環保訴求：</strong>「回收牛奶罐變花盆——頭城農場的零廢棄美學」</p>
-
-  <!-- 體驗三 -->
-  <div class="highlight"><h3 style="margin:0">🎨 體驗三：蔬菜自然染手作坊</h3></div>
-  <p style="color:#8e44ad;font-size:1.2rem;font-weight:700;margin:0 0 6px">把有機蔬菜的顏色，穿在身上。</p>
-  <p style="color:#555;margin:0 0 16px">紅鳳菜的紫、菠菜的綠、紫甘藍的藍——頭城農場蔬菜自然染，讓你的包包成為獨一無二的藝術品。</p>
-  <p>你知道紅鳳菜可以染出淡雅的藕紫色嗎？你知道菠菜除了吃，還能讓純棉布料染上春日的新綠色嗎？在頭城農場，我們把有機蔬菜中「不能吃」的部分——老葉、菜梗、過熟的蔬菜——熬煮成天然染劑，讓你親手將一塊純白胚布，變成全世界獨一無二的自然染作品。</p>
-  <div class="box">
-    <strong>適合對象：</strong>文青族群、網美、手作愛好者、企業Team Building<br>
-    <strong>體驗時長：</strong>90分鐘 ｜ <strong>費用：</strong>加購價 NT___／位<br>
-    <strong>場次：</strong>每日13:00（每梯上限15人）
-  </div>
-  <div class="keywords">
-    <span class="keyword">#蔬菜不只是食物</span><span class="keyword">#自然染手作</span><span class="keyword">#零浪費美學</span><span class="keyword">#有機蔬菜的第二次生命</span>
-  </div>
-  <p><strong>作品價值：</strong>「全世界只有一個的蔬菜染環保袋——因為連你都無法複製同樣的顏色」</p>
-
-  <!-- 體驗四 -->
-  <div class="highlight"><h3 style="margin:0">🥒 體驗四：有機泡菜／醃菜工作坊</h3></div>
-  <p style="color:#d35400;font-size:1.2rem;font-weight:700;margin:0 0 6px">把頭城農場的夏天，封進罐子裡。</p>
-  <p style="color:#555;margin:0 0 16px">有機泡菜工作坊——親手醃漬一罐有機蔬菜，帶回家繼續發酵。</p>
-  <p>小時候，阿嬤的廚房總有幾甕泡菜——打開甕蓋的瞬間，酸香撲鼻，那是時間的味道。在頭城農場，我們用有機高麗菜、有機白蘿蔔、有機小黃瓜，搭配農場自調的黃金比例醬料（韓式辣醬／台式蒜香／日式淺漬，三選一），讓你親手完成一罐500ml的手工泡菜。專屬標籤貼紙寫上你的名字和你說的一句話。回家後，看著它一天天發酵、熟成——那是專屬於你的頭城風味。</p>
-  <div class="box">
-    <strong>適合對象：</strong>銀髮族群、家庭主婦、料理愛好者、送禮需求<br>
-    <strong>體驗時長：</strong>60分鐘 ｜ <strong>費用：</strong>加購價 NT___／罐<br>
-    <strong>場次：</strong>每日11:00／15:00（每梯上限20人）
-  </div>
-  <div class="keywords">
-    <span class="keyword">#阿嬤的味道</span><span class="keyword">#泡菜DIY</span><span class="keyword">#時間的風味</span><span class="keyword">#頭城農場的罐裝回憶</span>
-  </div>
-  <p><strong>懷舊訴求：</strong>「打開罐子的那一刻，你會聞到頭城的陽光和土壤」<br>
-  <strong>社交分享：</strong>「親手做的泡菜，送禮比紅包更有心意」</p>
-
-  <!-- 體驗五 -->
-  <div class="highlight"><h3 style="margin:0">🧂 體驗五：有機香草鹽DIY</h3></div>
-  <p style="color:#2980b9;font-size:1.2rem;font-weight:700;margin:0 0 6px">一撮鹽，把頭城有機香草的味道鎖進廚房。</p>
-  <p style="color:#555;margin:0 0 16px">迷迭香、百里香、奧勒岡——在頭城農場的香草園親手採集、烘乾、調配，做出專屬你的有機香草鹽。</p>
-  <p>如果廚房只能放一種調味料，那就是香草鹽。你將走進香草園觸摸、嗅聞每一種香草，親手採摘喜歡的組合，學習最佳乾燥條件（40°C、4小時），將乾燥香草與台灣本土日曬海鹽以黃金比例混合，裝入玻璃研磨罐，貼上專屬標籤。無論是牛排、沙拉、烤蔬菜還是義式麵包，撒上一點，都是頭城農場的滋味。</p>
-  <div class="box">
-    <strong>適合對象：</strong>料理愛好者、送禮需求、露營族群、減鹽飲食者<br>
-    <strong>體驗時長：</strong>60分鐘 ｜ <strong>費用：</strong>加購價 NT___／罐<br>
-    <strong>場次：</strong>每日10:00-16:00 隨到隨做
-  </div>
-  <div class="keywords">
-    <span class="keyword">#香草鹽</span><span class="keyword">#頭城農場的調味魔法</span><span class="keyword">#有機香草</span><span class="keyword">#料理人的必備品</span>
-  </div>
-  <p><strong>實用訴求：</strong>「一瓶香草鹽 = 10種料理的升級密碼」</p>
-
-  <!-- 體驗六 -->
-  <div class="highlight"><h3 style="margin:0">🎲 體驗六：蔬果猜謎盲盒採集</h3></div>
-  <p style="color:#f39c12;font-size:1.2rem;font-weight:700;margin:0 0 6px">你不認識的蔬菜，比你更懂你的味蕾。</p>
-  <p style="color:#555;margin:0 0 16px">矇上眼睛，用觸覺和嗅覺重新認識有機蔬菜——頭城農場「盲盒採集」挑戰。</p>
-  <p>你看得出來這是什麼菜嗎？——不能看，只能摸、聞、猜。在頭城農場的有機菜園邊，設置了「盲盒挑戰區」：你會被蒙上眼睛，面前擺放5-6種有機蔬菜，只能透過觸摸葉片紋理、嗅聞莖葉香氣來辨認。猜對3種以上就能獲得農場隱藏版小禮物（有機蔬菜種子包）。猜對全部6種，直接獲得「頭城農場食農達人」證書+免費住宿券抽獎資格！</p>
-  <div class="box">
-    <strong>適合對象：</strong>團體／企業Team Building、學校戶外教學、朋友競賽<br>
-    <strong>體驗時長：</strong>30-45分鐘 ｜ <strong>費用：</strong>加購價 NT___／位<br>
-    <strong>場次：</strong>可彈性預約，建議團體活動場合搭配
-  </div>
-  <div class="keywords">
-    <span class="keyword">#盲盒挑戰</span><span class="keyword">#五感體驗</span><span class="keyword">#你認識多少蔬菜</span><span class="keyword">#頭城農場食農達人</span>
-  </div>
-  <p><strong>教育訴求：</strong>「孩子們笑著玩完，卻記住了6種蔬菜的特徵——這比課本有效100倍」</p>
-
-  <!-- 體驗七 -->
-  <div class="highlight"><h3 style="margin:0">🐞 體驗七：昆蟲旅館與共生菜園</h3></div>
-  <p style="color:#16a085;font-size:1.2rem;font-weight:700;margin:0 0 6px">不只種菜，我們也幫蟲蟲蓋房子。</p>
-  <p style="color:#555;margin:0 0 16px">頭城農場「昆蟲旅館」DIY——用回收材料，為農場的益蟲朋友打造五星級棲所。</p>
-  <p>有機農場裡，蟲不是敵人，是鄰居。瓢蟲幫忙吃蚜蟲、蜜蜂幫忙授粉、獨居蜂幫忙控制害蟲——在有機農法中，每一種昆蟲都有它的角色。在頭城農場，我們引導你使用竹段、木頭、松果、稻草、麻繩等天然回收材料，親手搭建一座「昆蟲旅館」，掛在有機菜園邊，然後你會在農場的後續直播中看到什麼昆蟲入住你蓋的房子。</p>
-  <div class="box">
-    <strong>適合對象：</strong>親子家庭（5-12歲）、學校戶外教學、ESG企業活動<br>
-    <strong>體驗時長：</strong>90分鐘 ｜ <strong>費用：</strong>加購價 NT___／組<br>
-    <strong>場次：</strong>每日09:30（每梯上限12組）
-  </div>
-  <div class="keywords">
-    <span class="keyword">#昆蟲旅館</span><span class="keyword">#幫蟲蟲蓋房子</span><span class="keyword">#有機共生</span><span class="keyword">#頭城農場的生態系</span>
-  </div>
-  <p><strong>教育訴求：</strong>「孩子蓋了一間昆蟲旅館後，從此看到蟲不再尖叫，而是問『這是益蟲還是害蟲？』」<br>
-  <strong>ESG訴求：</strong>「一座昆蟲旅館 = 生物多樣性的具體行動」</p>
-
-  <!-- 體驗八 -->
-  <div class="highlight"><h3 style="margin:0">💐 體驗八：有機蔬菜花束</h3></div>
-  <p style="color:#c0392b;font-size:1.2rem;font-weight:700;margin:0 0 6px">送花太老套，送菜花——剛剛好。</p>
-  <p style="color:#555;margin:0 0 16px">頭城農場有機蔬菜花束——可以吃、可以拍、可以送人的三重新鮮驚喜。</p>
-  <p>如果有一束花，看完之後還能煮來吃——你會不會多看一眼？在頭城農場，我們打破鮮花與蔬菜的界線：用深綠的羽衣甘藍當襯葉、紫紅的紅橡木萵苣當主花、點綴幾株迷迭香和食用金蓮花——一束充滿生命力、而且100%可以食用的「有機蔬菜花束」，就這樣誕生了。拍照上傳，朋友會問你在哪家花店買的；回家下鍋，家人會問你這菜哪裡買的。</p>
-  <div class="box">
-    <strong>適合對象：</strong>網美、情侶、母親節／情人節送禮、閨蜜聚會<br>
-    <strong>體驗時長：</strong>45分鐘 ｜ <strong>費用：</strong>加購價 NT___／束<br>
-    <strong>場次：</strong>每日10:00-16:00 隨到隨做
-  </div>
-  <div class="keywords">
-    <span class="keyword">#蔬菜花束</span><span class="keyword">#可以吃的花</span><span class="keyword">#送菜花</span><span class="keyword">#頭城農場花藝課</span>
-  </div>
-  <p><strong>反差訴求：</strong>「送花會被說老梗，送蔬菜花會被說『太有創意了吧！』」<br>
-    <strong>實用訴求：</strong>「鮮花只能看5天，蔬菜花看完還能煮一鍋好湯」</p>
-</section>
-
-<!-- ===================== 參 ===================== -->
-<section id="s3" class="section">
-  <div class="section-num">參</div>
-  <h2>參、八項DIY體驗企劃書</h2>
-
-  <!-- 企劃一 -->
-  <div class="highlight"><h3 style="margin:0">🌱 企劃一：「從田到桌」自採自煮工作坊</h3></div>
-  <h4>1. 執行細節</h4>
-  <p><strong>場地配置：</strong>有機菜園中劃設「自採專區」約20坪，與既有導覽菜園相鄰但以竹籬或麻繩區隔。灶咖空間利用農場既有傳統廚房改造，增設2-3組獨立料理工作站（含電磁爐／卡式爐、砧板、刀具、洗菜籃）。</p>
-  <p><strong>流程設計：</strong></p>
-  <div class="step"><span class="num">0</span><div><strong>5分鐘</strong> — 報到、圍裙與竹籃發放、安全說明（刀具使用、火源注意）</div></div>
-  <div class="step"><span class="num">1</span><div><strong>25分鐘</strong> — 進入自採專區，由導師介紹當日可採收的3-4種有機蔬菜，學員自行採摘所需用量</div></div>
-  <div class="step"><span class="num">2</span><div><strong>10分鐘</strong> — 回工作站進行洗菜、備料（農場提供已清洗之備用食材以備不足）</div></div>
-  <div class="step"><span class="num">3</span><div><strong>30分鐘</strong> — 在導師指導下完成2道料理（一道清炒蔬菜、一道湯品或創意料理）</div></div>
-  <div class="step"><span class="num">4</span><div><strong>15分鐘</strong> — 享用成果，拍照記錄</div></div>
-  <div class="step"><span class="num">5</span><div><strong>5分鐘</strong> — 回收圍裙、問卷填寫、發放食譜卡片</div></div>
-
-  <h4>季節菜單輪替</h4>
-  <table>
-    <tr><th>季節</th><th>月份</th><th>蔬菜品項</th></tr>
-    <tr><td>🌸 春季</td><td>3-5月</td><td>高麗菜、萵苣、菠菜、茼蒿</td></tr>
-    <tr><td>☀️ 夏季</td><td>6-8月</td><td>空心菜、小白菜、茄子、秋葵</td></tr>
-    <tr><td>🍂 秋季</td><td>9-11月</td><td>青江菜、白蘿蔔、花椰菜、芥菜</td></tr>
-    <tr><td>❄️ 冬季</td><td>12-2月</td><td>大白菜、油菜、芹菜、茴香</td></tr>
-  </table>
-
-  <h4>2. 資源需求</h4>
-  <p><strong>人力：</strong>每梯次配置1名料理導師（農場現有廚務人員兼任）+ 1名助手（工讀生）</p>
-  <p><strong>設備新增（一次性）：</strong></p>
-  <table>
-    <tr><th>設備</th><th>數量</th><th>預估費用</th></tr>
-    <tr><td>料理工作站（含卡式爐、不鏽鋼工作檯）</td><td>3組</td><td>NT___</td></tr>
-    <tr><td>圍裙</td><td>20件</td><td>NT___</td></tr>
-    <tr><td>竹籃</td><td>20個</td><td>NT___</td></tr>
-    <tr><td>餐具組</td><td>20套</td><td>NT___</td></tr>
-    <tr><td>炊具組</td><td>3套</td><td>NT___</td></tr>
-    <tr><td><strong>總計</strong></td><td></td><td><strong>NT___</strong></td></tr>
-  </table>
-
-  <h4>3. 成本結構與定價</h4>
-  <table>
-    <tr><th>項目</th><th>金額</th></tr>
-    <tr><td>每人次變動成本（食材耗材+助手人力分攤+水電清潔）</td><td>NT___</td></tr>
-    <tr><td>固定成本攤提（設備額 ÷ 預估年使用人次3,000）</td><td>NT___／人次</td></tr>
-    <tr><td>每人次總成本</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／位（毛利率約68%）</strong></td></tr>
-    <tr><td>損益平衡點</td><td>約320人次／年（不到1人次／日）</td></tr>
-  </table>
-
-  <h4>4. 風險評估與緩衝</h4>
-  <div class="box"><strong>天候風險：</strong>遇雨改為由農場人員代採，在室內進行料理環節<br><strong>蔬菜產量不足：</strong>設定每梯上限20人，備有機蔬菜供應商合作備案<br><strong>安全風險：</strong>刀具使用限成人，兒童須由家長陪同操作；卡式爐由導師統一控火</div>
-
-  <h4>5. KPI目標（營運首年）</h4>
-  <div class="kpi-grid">
-    <div class="kpi-item"><div class="num">3,000</div><div class="lbl">參與人次／年</div></div>
-    <div class="kpi-item"><div class="num">NT$___</div><div class="lbl">營業額／年</div></div>
-    <div class="kpi-item"><div class="num">68%</div><div class="lbl">毛利率</div></div>
-    <div class="kpi-item"><div class="num">4.5★</div><div class="lbl">滿意度</div></div>
-    <div class="kpi-item"><div class="num">20%</div><div class="lbl">回購率</div></div>
-  </div>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃二 -->
-  <div class="highlight"><h3 style="margin:0">🪴 企劃二：有機蔬菜盆栽組裝教室</h3></div>
-  <h4>1. 執行細節</h4>
-  <p><strong>場地配置：</strong>利用既有葉拓教室之一角（約5坪），設置盆栽組裝工作站。另設菜苗展示架，展示當週可選的3-4種有機菜苗品項。</p>
-  <p><strong>流程設計：</strong></p>
-  <div class="step"><span class="num">1</span><div>認識當日可選菜苗品種，選擇菜苗種類（10分鐘）</div></div>
-  <div class="step"><span class="num">2</span><div>挑選盆器—回收牛奶罐／手繪陶盆／椰纖盆三選一（5分鐘）</div></div>
-  <div class="step"><span class="num">3</span><div>填入有機培養土 + 植入菜苗 + 鋪設表土裝飾（15分鐘）</div></div>
-  <div class="step"><span class="num">4</span><div>插上植物名牌 + 領取照顧指南小卡（5分鐘）</div></div>
-  <div class="step"><span class="num">5</span><div>拍照上傳打卡可兌換種子包（5分鐘）</div></div>
-  <p><strong>追蹤機制：</strong>每盆附QR碼卡片，掃碼可加入農場LINE官方帳號，後續接收菜苗生長知識推播。</p>
-  <h4>2. 成本結構與定價</h4>
-  <table>
-    <tr><th>項目</th><th>金額</th></tr>
-    <tr><td>每人次變動成本（平均耗材+人力分攤+水電）</td><td>NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／盆（毛利率約72%）</strong></td></tr>
-    <tr><td>損益平衡點</td><td>約170盆／年</td></tr>
-  </table>
-  <h4>KPI目標（首年）</h4>
-  <div class="kpi-grid">
-    <div class="kpi-item"><div class="num">5,000</div><div class="lbl">售出盆數／年</div></div>
-    <div class="kpi-item"><div class="num">NT$___</div><div class="lbl">營業額／年</div></div>
-    <div class="kpi-item"><div class="num">2,000</div><div class="lbl">LINE好友新增</div></div>
-  </div>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃三 -->
-  <div class="highlight"><h3 style="margin:0">🎨 企劃三：蔬菜自然染手作坊</h3></div>
-  <h4>1. 執行細節</h4>
-  <p><strong>場地配置：</strong>與葉拓教室共用，需額外設置4組電磁爐／瓦斯爐用於煮染。需有清洗區與晾乾區。</p>
-  <p><strong>流程設計：</strong></p>
-  <div class="step"><span class="num">1</span><div>採集材料—在農場蒐集「蔬菜廢棄部位」（15分鐘）</div></div>
-  <div class="step"><span class="num">2</span><div>染劑熬煮—材料切碎，加水煮15-20分鐘，過濾取得染液（15分鐘）</div></div>
-  <div class="step"><span class="num">3</span><div>染布操作—學習綁紮技法，將布料浸入染液中（30分鐘）</div></div>
-  <div class="step"><span class="num">4</span><div>定色與沖洗—使用明礬或醋進行定色（20分鐘）</div></div>
-  <div class="step"><span class="num">5</span><div>成品展示與拍照（10分鐘）</div></div>
-
-  <h4>標準色譜</h4>
-  <table>
-    <tr><th>蔬菜</th><th>產出顏色</th></tr>
-    <tr><td>紅鳳菜</td><td>藕紫</td></tr>
-    <tr><td>菠菜</td><td>淺綠</td></tr>
-    <tr><td>紫甘藍</td><td>藍紫</td></tr>
-    <tr><td>紅蔥頭皮</td><td>橘棕</td></tr>
-    <tr><td>薑黃</td><td>黃</td></tr>
-  </table>
-  <h4>成本與KPI</h4>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備</td><td>約NT___（電磁爐4台、不鏽鋼鍋4組、晾衣架）</td></tr>
-    <tr><td>每人次耗材</td><td>約NT___（純棉胚布／環保袋、明礬、棉繩、手套）</td></tr>
-    <tr><td>定價</td><td><strong>NT___／位（毛利率約76%）</strong></td></tr>
-    <tr><td>首年目標人次</td><td>1,500人次／年</td></tr>
-    <tr><td>首年營業額</td><td>NT$___</td></tr>
-  </table>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃四 -->
-  <div class="highlight"><h3 style="margin:0">🥒 企劃四：有機泡菜／醃菜工作坊</h3></div>
-  <p><strong>口味三選一：</strong>韓式辣醬 / 台式蒜香 / 日式淺漬</p>
-  <p><strong>流程：</strong>蔬菜處理→鹽漬脫水→調製醃醬→裝罐→貼標籤（共60分鐘）</p>
-  <p>※ 泡菜需冷藏至少24小時後食用風味最佳。附說明卡告知最佳食用時間與保存方式。</p>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備（玻璃罐500ml×500個、切菜器5組、大不鏽鋼盆10個）</td><td>約NT___</td></tr>
-    <tr><td>每人次耗材（蔬菜+醬料+玻璃罐+標籤）</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／罐（毛利率約76%）</strong></td></tr>
-    <tr><td>首年目標人次</td><td>2,500人次／年</td></tr>
-  </table>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃五 -->
-  <div class="highlight"><h3 style="margin:0">🧂 企劃五：有機香草鹽DIY</h3></div>
-  <p><strong>前置作業（農場負責，不佔學員時間）：</strong>香草於採收後以40°C低溫烘乾4小時，保存於密封罐中備用。每位學員香草量約10g乾燥香草。</p>
-  <p><strong>流程：</strong>香草園導覽（聞香、觸摸、認識6種以上有機香草）→採摘→調配（搓碎+與海鹽1:5混合）→裝罐→試吃</p>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備（玻璃研磨罐500個、標籤機）</td><td>約NT___</td></tr>
-    <tr><td>每人次耗材</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／罐（毛利率約76%）</strong></td></tr>
-    <tr><td>首年目標人次</td><td>3,000人次／年</td></tr>
-  </table>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃六 -->
-  <div class="highlight"><h3 style="margin:0">🎲 企劃六：蔬果猜謎盲盒採集</h3></div>
-  <p><strong>場地：</strong>設置2-3個「盲猜工作站」，位於有機菜園入口處。</p>
-  <p><strong>流程：</strong>分組報到戴眼罩→工作站依序遞上6種有機蔬菜→觸覺與嗅覺猜測→揭曉答案+講解→頒獎</p>
-  <p><strong>蔬菜資料庫（跨季節輪替）：</strong></p>
-  <table>
-    <tr><th>季節</th><th>蔬菜品項</th></tr>
-    <tr><td>春季</td><td>高麗菜、萵苣、菠菜、茼蒿、芹菜、青蔥</td></tr>
-    <tr><td>夏季</td><td>空心菜、小白菜、茄子、秋葵、苦瓜、紫蘇</td></tr>
-    <tr><td>秋季</td><td>青江菜、白蘿蔔、花椰菜、芥菜、紅蘿蔔、地瓜葉</td></tr>
-    <tr><td>冬季</td><td>大白菜、油菜、茴香、刈菜、甜菜根、蒜苗</td></tr>
-  </table>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備</td><td>約NT___（眼罩20個、工作站牌架3組）</td></tr>
-    <tr><td>每人次耗材</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／位（毛利率約81%）</strong></td></tr>
-    <tr><td>首年目標人次</td><td>2,000人次／年</td></tr>
-  </table>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃七 -->
-  <div class="highlight"><h3 style="margin:0">🐞 企劃七：昆蟲旅館與共生菜園</h3></div>
-  <p><strong>材料包內容：</strong>竹段（直徑1-5cm各數段）、廢棄木板、松果、稻草、麻繩、椰纖、天然塗料、說明書。材料來源優先使用農場既有廢棄物。</p>
-  <p><strong>流程：</strong>生態導覽（認識益蟲）→旅館框架搭建（木板+麻繩）→填充材料（竹段、松果、稻草分層填入）→掛置→填寫紀錄卡掃QR碼</p>
-  <p><strong>後續追蹤：</strong>每月由農場人員拍攝旅館使用狀況，上傳至Facebook社團，標記搭建者。</p>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備（基本木工工具組、展示旅館樣品5座）</td><td>約NT___</td></tr>
-    <tr><td>每組材料包成本</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／組（毛利率約74%）</strong></td></tr>
-    <tr><td>首年目標</td><td>1,200組／年</td></tr>
-    <tr><td>附帶效益</td><td>長期生態裝置，提升園區導覽豐富度</td></tr>
-  </table>
-
-  <div class="divider">• • •</div>
-
-  <!-- 企劃八 -->
-  <div class="highlight"><h3 style="margin:0">💐 企劃八：有機蔬菜花束</h3></div>
-  <p><strong>可選蔬菜素材（依季節調整6-8種）：</strong></p>
-  <p><strong>葉菜類：</strong>羽衣甘藍（主花）、紅橡木萵苣、奶油萵苣、紫色高麗菜<br>
-  <strong>香草類：</strong>迷迭香、百里香、薄荷、薰衣草<br>
-  <strong>食用花類：</strong>金蓮花、百日草、琉璃苣</p>
-  <p><strong>流程：</strong>花材認識→螺旋式花束綁法→牛皮紙+麻繩包裝→拍照牆留影上傳</p>
-  <table>
-    <tr><th>項目</th><th>數值</th></tr>
-    <tr><td>一次性設備（花藝剪刀10把、包裝紙備料、拍照牆佈置）</td><td>約NT___</td></tr>
-    <tr><td>每人次耗材</td><td>約NT___</td></tr>
-    <tr><td>定價</td><td><strong>NT___／束（毛利率約83%）</strong></td></tr>
-    <tr><td>首年目標</td><td>2,000束／年</td></tr>
-  </table>
-</section>
-
-<!-- ===================== 肆 ===================== -->
-<section id="s4" class="section">
-  <div class="section-num">肆</div>
-  <h2>肆、預算總表與執行時程</h2>
-
-  <h3>一、一次性設備投資總額</h3>
-  <table>
-    <tr><th>體驗</th><th>設備投資</th></tr>
-    <tr><td>🌱 一、自採自煮</td><td>NT___</td></tr>
-    <tr><td>🪴 二、盆栽教室</td><td>NT___</td></tr>
-    <tr><td>🎨 三、蔬菜自然染</td><td>NT___</td></tr>
-    <tr><td>🥒 四、泡菜工作坊</td><td>NT___</td></tr>
-    <tr><td>🧂 五、香草鹽DIY</td><td>NT___</td></tr>
-    <tr><td>🎲 六、盲盒採集</td><td>NT___</td></tr>
-    <tr><td>🐞 七、昆蟲旅館</td><td>NT___</td></tr>
-    <tr><td>💐 八、蔬菜花束</td><td>NT___</td></tr>
-    <tr><td><strong>八項總計</strong></td><td><strong>NT$___</strong></td></tr>
-  </table>
-
-  <h3>二、營運首年預估總營業額</h3>
-  <table>
-    <tr><th>體驗</th><th>人次／數量</th><th>單價</th><th>營業額</th></tr>
-    <tr><td>🌱 自採自煮</td><td>3,000人次</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🪴 盆栽教室</td><td>5,000盆</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🎨 蔬菜自然染</td><td>1,500人次</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🥒 泡菜工作坊</td><td>2,500人次</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🧂 香草鹽DIY</td><td>3,000人次</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🎲 盲盒採集</td><td>2,000人次</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>🐞 昆蟲旅館</td><td>1,200組</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td>💐 蔬菜花束</td><td>2,000束</td><td>NT___</td><td>NT___</td></tr>
-    <tr><td><strong>首年總營業額</strong></td><td><strong>20,200</strong></td><td></td><td><strong>NT$___</strong></td></tr>
-  </table>
-  <div class="box">實際數字需視行銷投入與市場反應調整。</div>
-
-  <h3>三、分階段執行時程</h3>
-  <div class="timeline">
-    <div class="tl-item"><span class="month">Month 1-2</span><p><strong>場地整備與設備採購</strong> — 完成八項體驗之工作站設置、設備採購與安裝、人力培訓</p></div>
-    <div class="tl-item"><span class="month">Month 3</span><p><strong>試營運</strong> — 開放體驗一、二、五（門檻最低）進行為期一個月試營運，收集遊客反饋並調整流程</p></div>
-    <div class="tl-item"><span class="month">Month 4</span><p><strong>全面上線</strong> — 八項體驗全部正式上線，同步啟動KKday/Klook上架與KOL合作</p></div>
-    <div class="tl-item"><span class="month">Month 5-6</span><p><strong>旺季驗證</strong> — 進入夏季旅遊旺季，集中觀察假日與連續假日的營運負載能力</p></div>
-    <div class="tl-item"><span class="month">Month 7-12</span><p><strong>優化與擴展</strong> — 依據前半年數據調整定價、場次、人員配置，啟動企業／學校專案</p></div>
-  </div>
-</section>
-
-<!-- ===================== 伍 ===================== -->
-<section id="s5" class="section">
-  <div class="section-num">伍</div>
-  <h2>伍、效益評估與KPI總表</h2>
-
-  <h3>一、財務效益</h3>
-  <table>
-    <tr><th>項目</th><th>預估</th></tr>
-    <tr><td>首年總營業額目標</td><td>NT$___</td></tr>
-    <tr><td>扣除變動成本後之毛利（平均毛利率約%）</td><td>約NT$___</td></tr>
-    <tr><td>扣除一次性設備投資及新增固定人力成本後之淨利</td><td>約NT$___</td></tr>
-    <tr><td>投資回收期</td><td>約___個月</td></tr>
-  </table>
-
-  <h3>二、非財務效益</h3>
-  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
-    <div class="card"><div class="ctext"><h4>🏷️ 品牌價值</h4><p>建立「有機蔬菜主題體驗農場」市場定位，與宜蘭其他休閒農場形成差異化。</p></div></div>
-    <div class="card"><div class="ctext"><h4>⏱️ 顧客停留時間延長</h4><p>每項體驗增加30-90分鐘停留，帶動現場餐飲與農產品銷售。</p></div></div>
-    <div class="card"><div class="ctext"><h4>📣 口碑擴散</h4><p>預估全年社群媒體曝光達500篇以上。</p></div></div>
-    <div class="card"><div class="ctext"><h4>💬 LINE好友成長</h4><p>預估新增5,000人以上（透過盆栽QR碼、體驗預約、後續追蹤）。</p></div></div>
-    <div class="card"><div class="ctext"><h4>🤝 B2B通路</h4><p>企業／學校合作機會，開拓新客源通路。</p></div></div>
-  </div>
-
-  <h3>三、KPI量化指標總表</h3>
-  <table>
-    <tr><th>KPI</th><th>目標值</th></tr>
-    <tr><td>總參與人次（加購總量）</td><td>20,200人次／年</td></tr>
-    <tr><td>總營業額</td><td>NT$___／年</td></tr>
-    <tr><td>平均客單價提升（原一日遊 → 含加購）</td><td>預估提升NT___／人</td></tr>
-    <tr><td>顧客滿意度</td><td>平均4.5／5星以上</td></tr>
-    <tr><td>加購率（一日遊套裝遊客加購體驗）</td><td>≥ 30%</td></tr>
-    <tr><td>社群聲量（全年UGC）</td><td>≥ 500篇</td></tr>
-    <tr><td>回流率（12個月內再次造訪）</td><td>≥ 15%</td></tr>
-    <tr><td>企業／學校簽約數</td><td>≥ 5家（首年）</td></tr>
-  </table>
-
-  <div class="divider">🌱 🌿 🌱</div>
-
-  <div style="text-align:center;padding:40px 0">
-    <p style="font-size:1.5rem;font-weight:700;color:#1a3c1a">「從泥土到餐桌」的有機生活實踐家</p>
-    <p style="color:#666">頭城休閒農場 · 2026 有機蔬菜DIY體驗行銷企劃</p>
-  </div>
-
-</section>
 </div>
 
-<footer>
-  <p>頭城休閒農場 HEAD FARM ｜ GSTC認證 ｜ 宜蘭縣頭城鎮</p>
-  <p style="font-size:.8rem;margin-top:8px;opacity:.6">本簡報由 Claude Code 自動生成，內容基於原始企劃文件</p>
-</footer>
+<!-- ====== 4. 貳：八項體驗文案 (1-4) ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">貳</div>
+    <div class="slide-header"><h2>貳、八項創新DIY體驗 — 行銷文案</h2></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="card"><div class="card-icon">🌱</div><h4>一、自採自煮工作坊</h4><p style="color:#c0392b;font-weight:600;font-size:.88rem">從田到桌零時差</p><p>親手採摘、現煮現吃，有機蔬菜不離開土地超過半小時。</p><span class="tag">90min</span><span class="tag">NT___/位</span></div>
+      <div class="card"><div class="card-icon">🪴</div><h4>二、有機蔬菜盆栽教室</h4><p style="color:#27ae60;font-weight:600;font-size:.88rem">帶一盆活著的紀念品回家</p><p>有機菜苗+回收牛奶罐盆栽，附照顧指南。</p><span class="tag">40min</span><span class="tag">NT___/盆</span></div>
+      <div class="card"><div class="card-icon">🎨</div><h4>三、蔬菜自然染手作坊</h4><p style="color:#8e44ad;font-weight:600;font-size:.88rem">把有機蔬菜的顏色穿在身上</p><p>紅鳳菜、菠菜、紫甘藍熬煮成天然染劑。</p><span class="tag">90min</span><span class="tag">NT___/位</span></div>
+      <div class="card"><div class="card-icon">🥒</div><h4>四、有機泡菜工作坊</h4><p style="color:#d35400;font-weight:600;font-size:.88rem">把夏天的頭城封進罐子裡</p><p>韓式辣醬/台式蒜香/日式淺漬三選一。</p><span class="tag">60min</span><span class="tag">NT___/罐</span></div>
+    </div>
+    <div class="keywords" style="text-align:center;margin-top:8px">
+      <span class="keyword">#farmtotable</span><span class="keyword">#帶活著的紀念品回家</span><span class="keyword">#蔬菜不只是食物</span><span class="keyword">#阿嬤的味道</span>
+    </div>
+  </div>
+</div>
 
+<!-- ====== 5. 貳：八項體驗文案 (5-8) ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">貳</div>
+    <div class="slide-header"><h2>貳、八項創新DIY體驗 — 行銷文案（續）</h2></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="card"><div class="card-icon">🧂</div><h4>五、有機香草鹽DIY</h4><p style="color:#2980b9;font-weight:600;font-size:.88rem">一撮鹽鎖住頭城香草的味道</p><p>親手採摘迷迭香、百里香，與海鹽黃金比例調配。</p><span class="tag">60min</span><span class="tag">NT___/罐</span></div>
+      <div class="card"><div class="card-icon">🎲</div><h4>六、蔬果盲盒採集</h4><p style="color:#f39c12;font-weight:600;font-size:.88rem">蒙上眼睛重新認識蔬菜</p><p>觸覺+嗅覺猜謎，猜中送種子包。</p><span class="tag">30-45min</span><span class="tag">NT___/位</span></div>
+      <div class="card"><div class="card-icon">🐞</div><h4>七、昆蟲旅館DIY</h4><p style="color:#16a085;font-weight:600;font-size:.88rem">幫益蟲蓋五星級棲所</p><p>竹段、松果、稻草搭建，掛在菜園旁追蹤入住狀況。</p><span class="tag">90min</span><span class="tag">NT___/組</span></div>
+      <div class="card"><div class="card-icon">💐</div><h4>八、有機蔬菜花束</h4><p style="color:#c0392b;font-weight:600;font-size:.88rem">可以吃、可以拍、可以送人</p><p>羽衣甘藍+紅橡木萵苣+迷迭香，100%可食用花束。</p><span class="tag">45min</span><span class="tag">NT___/束</span></div>
+    </div>
+    <div class="keywords" style="text-align:center;margin-top:8px">
+      <span class="keyword">#香草鹽</span><span class="keyword">#盲盒挑戰</span><span class="keyword">#昆蟲旅館</span><span class="keyword">#蔬菜花束</span><span class="keyword">#可以吃的花</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 6. 參：企劃一 ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">參</div>
+    <div class="slide-header"><h2>參、企劃一：自採自煮工作坊</h2></div>
+    <div class="two-col">
+      <div>
+        <h4>流程設計</h4>
+        <div class="step"><span class="num">0</span><div><strong>5min</strong> 報到、圍裙發放、安全說明</div></div>
+        <div class="step"><span class="num">1</span><div><strong>25min</strong> 進入自採專區，採摘3-4種有機蔬菜</div></div>
+        <div class="step"><span class="num">2</span><div><strong>10min</strong> 洗菜、備料</div></div>
+        <div class="step"><span class="num">3</span><div><strong>30min</strong> 完成2道料理（清炒+湯品）</div></div>
+        <div class="step"><span class="num">4</span><div><strong>15min</strong> 享用成果、拍照</div></div>
+        <div class="step"><span class="num">5</span><div><strong>5min</strong> 問卷、發放食譜卡片</div></div>
+      </div>
+      <div>
+        <h4>成本結構</h4>
+        <table>
+          <tr><th>項目</th><th>金額</th></tr>
+          <tr><td>每人次變動成本</td><td>NT___</td></tr>
+          <tr><td>設備攤提</td><td>NT___/人次</td></tr>
+          <tr><td>定價</td><td><strong>NT___/位（毛利率68%）</strong></td></tr>
+          <tr><td>損益平衡</td><td>320人次/年</td></tr>
+        </table>
+        <h4 class="slim-mb">季節菜單輪替</h4>
+        <table>
+          <tr><th>季節</th><th>蔬菜</th></tr>
+          <tr><td>🌸 春</td><td>高麗菜、萵苣、菠菜、茼蒿</td></tr>
+          <tr><td>☀️ 夏</td><td>空心菜、小白菜、茄子、秋葵</td></tr>
+          <tr><td>🍂 秋</td><td>青江菜、白蘿蔔、花椰菜、芥菜</td></tr>
+          <tr><td>❄️ 冬</td><td>大白菜、油菜、芹菜、茴香</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="box"><strong>天候風險：</strong>遇雨改由農場人員代採，室內料理 ｜ <strong>安全：</strong>刀具限成人，兒童由家長陪同</div>
+  </div>
+</div>
+
+<!-- ====== 7. 參：企劃二~四 ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">參</div>
+    <div class="slide-header"><h2>參、企劃二～四</h2></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="card">
+        <div class="card-icon">🪴</div>
+        <h4>二、盆栽教室</h4>
+        <p><strong>流程</strong> 選菜苗→挑盆器→填土植苗→插名牌→打卡</p>
+        <p><strong>定價</strong> NT___/盆（毛利率72%）</p>
+        <p><strong>首年</strong> 5,000盆 · 新增2,000 LINE好友</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h4>三、蔬菜自然染</h4>
+        <p><strong>流程</strong> 採集廢棄菜葉→熬煮染劑→綁紮浸染→定色</p>
+        <p><strong>定價</strong> NT___/位（毛利率76%）</p>
+        <p><strong>首年</strong> 1,500人次</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🥒</div>
+        <h4>四、泡菜工作坊</h4>
+        <p><strong>流程</strong> 蔬菜處理→鹽漬脫水→調醬→裝罐→貼標</p>
+        <p><strong>口味</strong> 韓式辣醬 / 台式蒜香 / 日式淺漬</p>
+        <p><strong>定價</strong> NT___/罐（毛利率76%）· 首年2,500人次</p>
+      </div>
+    </div>
+    <div class="box">三項體驗均可使用既有空間改造，一次性設備投資低。<br>盆栽與泡菜均為「帶回家」商品，具備後續品牌延伸效益（LINE好友、回購）。</div>
+  </div>
+</div>
+
+<!-- ====== 8. 參：企劃五~八 ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">參</div>
+    <div class="slide-header"><h2>參、企劃五～八</h2></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="card"><div class="card-icon">🧂</div><h4>五、香草鹽DIY</h4><p><strong>前置</strong> 農場40°C低溫烘乾4小時。<strong>流程</strong> 香草園導覽→採摘→搓碎+海鹽1:5→裝罐→試吃。<strong>定價</strong> NT___/罐（毛利率76%）。<strong>首年</strong> 3,000人次。</p></div>
+      <div class="card"><div class="card-icon">🎲</div><h4>六、盲盒採集</h4><p><strong>設備</strong> 眼罩+工作站。<strong>流程</strong> 戴眼罩→依序遞上6種蔬菜→觸嗅猜測→頒獎。<strong>定價</strong> NT___/位（毛利率81%）。<strong>首年</strong> 2,000人次。</p></div>
+      <div class="card"><div class="card-icon">🐞</div><h4>七、昆蟲旅館</h4><p><strong>材料</strong> 竹段、木板、松果、稻草（農場廢棄物）。<strong>流程</strong> 生態導覽→搭建→掛置→掃QR碼追蹤。<strong>定價</strong> NT___/組（毛利率74%）。<strong>首年</strong> 1,200組。</p></div>
+      <div class="card"><div class="card-icon">💐</div><h4>八、蔬菜花束</h4><p><strong>素材</strong> 羽衣甘藍、紅橡木萵苣、迷迭香、食用花。<strong>流程</strong> 螺旋花束綁法→牛皮紙包裝→拍照牆留影。<strong>定價</strong> NT___/束（毛利率83%）。<strong>首年</strong> 2,000束。</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 9. 肆：預算與時程 ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">肆</div>
+    <div class="slide-header"><h2>肆、預算總表與執行時程</h2></div>
+    <div class="two-col">
+      <div>
+        <h4>一次性設備投資總額</h4>
+        <table>
+          <tr><th>體驗</th><th>投資</th></tr>
+          <tr><td>🌱 自採自煮</td><td>NT___</td></tr>
+          <tr><td>🪴 盆栽教室</td><td>NT___</td></tr>
+          <tr><td>🎨 蔬菜自然染</td><td>NT___</td></tr>
+          <tr><td>🥒 泡菜工作坊</td><td>NT___</td></tr>
+          <tr><td>🧂 香草鹽DIY</td><td>NT___</td></tr>
+          <tr><td>🎲 盲盒採集</td><td>NT___</td></tr>
+          <tr><td>🐞 昆蟲旅館</td><td>NT___</td></tr>
+          <tr><td>💐 蔬菜花束</td><td>NT___</td></tr>
+          <tr><td><strong>總計</strong></td><td><strong>NT$___</strong></td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>分階段執行時程</h4>
+        <div class="timeline">
+          <div class="tl-item"><span class="month">M1-2</span><p>場地整備與設備採購、人力培訓</p></div>
+          <div class="tl-item"><span class="month">M3</span><p>試營運（體驗一、二、五）</p></div>
+          <div class="tl-item"><span class="month">M4</span><p>全面上線 + KKday/Klook上架 + KOL合作</p></div>
+          <div class="tl-item"><span class="month">M5-6</span><p>旺季驗證營運負載能力</p></div>
+          <div class="tl-item"><span class="month">M7-12</span><p>優化定價場次 + 企業學校專案</p></div>
+        </div>
+        <h4 class="slim-mb">首年總營業額</h4>
+        <table>
+          <tr><th>體驗</th><th>人次</th><th>營收</th></tr>
+          <tr><td>🌱 自採自煮</td><td>3,000</td><td>NT___</td></tr>
+          <tr><td>🪴 盆栽教室</td><td>5,000</td><td>NT___</td></tr>
+          <tr><td>+ 其他六項</td><td>12,200</td><td>NT___</td></tr>
+          <tr><td><strong>總計</strong></td><td><strong>20,200</strong></td><td><strong>NT$___</strong></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 10. 伍：效益與KPI ====== -->
+<div class="slide">
+  <div class="slide-content">
+    <div class="slide-num">伍</div>
+    <div class="slide-header"><h2>伍、效益評估與KPI總表</h2></div>
+    <div class="two-col">
+      <div>
+        <h4>財務效益</h4>
+        <table>
+          <tr><th>項目</th><th>預估</th></tr>
+          <tr><td>首年總營業額</td><td>NT$___</td></tr>
+          <tr><td>平均毛利率</td><td>約___%</td></tr>
+          <tr><td>投資回收期</td><td>約___個月</td></tr>
+        </table>
+        <h4 class="slim-mb">KPI量化指標</h4>
+        <table>
+          <tr><th>KPI</th><th>目標值</th></tr>
+          <tr><td>總參與人次</td><td>20,200/年</td></tr>
+          <tr><td>平均客單提升</td><td>NT___/人</td></tr>
+          <tr><td>顧客滿意度</td><td>4.5★以上</td></tr>
+          <tr><td>加購率</td><td>≥30%</td></tr>
+          <tr><td>社群聲量(UGC)</td><td>≥500篇</td></tr>
+          <tr><td>回流率</td><td>≥15%</td></tr>
+          <tr><td>企業簽約數</td><td>≥5家</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>非財務效益</h4>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+          <div class="card"><div class="card-icon">🏷️</div><h4>品牌差異化</h4><p>有機蔬菜主題體驗農場定位</p></div>
+          <div class="card"><div class="card-icon">⏱️</div><h4>停留延長</h4><p>每項+30~90分鐘</p></div>
+          <div class="card"><div class="card-icon">📣</div><h4>口碑擴散</h4><p>全年UGC≥500篇</p></div>
+          <div class="card"><div class="card-icon">💬</div><h4>LINE好友</h4><p>新增5,000+</p></div>
+        </div>
+        <div class="kpi-grid" style="margin-top:10px">
+          <div class="kpi-item"><div class="num">20,200</div><div class="lbl">年度總人次</div></div>
+          <div class="kpi-item"><div class="num">NT$___</div><div class="lbl">年營業額</div></div>
+          <div class="kpi-item"><div class="num">4.5★</div><div class="lbl">滿意度</div></div>
+          <div class="kpi-item"><div class="num">30%</div><div class="lbl">加購率</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 11. END ====== -->
+<div class="slide end">
+  <h1 style="font-size:clamp(2rem,4vw,3rem);color:#fff">🌿</h1>
+  <h1>從泥土到餐桌</h1>
+  <p>頭城休閒農場 · 有機生活實踐家</p>
+  <p style="color:rgba(255,255,255,.5);font-size:.82rem;margin-top:20px">HEAD FARM ｜ GSTC認證 ｜ 宜蘭縣頭城鎮</p>
+</div>
+
+</div><!-- /slides -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">‹</button>
+  <span class="counter" id="counter">1 / 11</span>
+  <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  <span class="page-info" id="pageInfo">封面</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">›</button>
+</div>
+</div><!-- /deck -->
+
+<script>
+const slideNames=['封面','目錄','前言與策略','八項體驗(1-4)','八項體驗(5-8)','企劃一:自採自煮','企劃二~四','企劃五~八','預算與時程','效益與KPI','結尾'];
+let cur=0,total=0;
+function init(){const s=document.getElementById('slides');total=s.children.length;update();document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();changeSlide(1)}else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();changeSlide(-1)}});let touchStartX=0;document.addEventListener('touchstart',function(e){touchStartX=e.changedTouches[0].screenX});document.addEventListener('touchend',function(e){const diff=touchStartX-e.changedTouches[0].screenX;if(Math.abs(diff)>50){changeSlide(diff>0?1:-1)}})}
+function changeSlide(d){const s=document.getElementById('slides');total=s.children.length;const n=cur+d;if(n<0||n>=total)return;cur=n;s.style.transform='translateX(-'+(cur*100)+'%)';update()}
+function goSlide(n){const s=document.getElementById('slides');total=s.children.length;if(n<0||n>=total)return;cur=n;s.style.transform='translateX(-'+(cur*100)+'%)';update()}
+function update(){document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('progressBar').style.width=((cur+1)/total*100)+'%';document.getElementById('pageInfo').textContent=slideNames[cur]||'';document.getElementById('prevBtn').disabled=cur===0;document.getElementById('nextBtn').disabled=cur===total-1}
+init()
+</script>
 </body>
 </html>
